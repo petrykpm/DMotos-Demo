@@ -5,8 +5,8 @@ import logo from '@/assets/logo-dm-motos.png';
 
 export default function Login() {
   const { login, error, isLoading } = useAuth();
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [email, setEmail] = useState('demo@dmmotos.com');
+  const [senha, setSenha] = useState('demo123');
   const [showSenha, setShowSenha] = useState(false);
   const [localError, setLocalError] = useState('');
 
@@ -45,7 +45,7 @@ export default function Login() {
       {/* Formulário */}
       <div className="flex-1 px-6 pt-8 pb-10 animate-fade-in">
         <div className="w-full max-w-sm mx-auto">
-          <p className="text-sm font-semibold text-foreground mb-5">Acesse sua conta</p>
+          <div className="mb-5 rounded-xl border border-primary/30 bg-primary/5 p-3"><p className="text-sm font-bold text-foreground">Acesso de demonstração</p><p className="mt-1 text-xs text-muted-foreground">E-mail: demo@dmmotos.com</p><p className="text-xs text-muted-foreground">Senha: demo123</p><p className="mt-2 text-[10px] text-muted-foreground">Use os dados fictícios. Nenhuma conta real é criada.</p></div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
