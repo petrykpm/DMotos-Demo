@@ -137,9 +137,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const updateProfile = useCallback(async (data: Partial<Profile>) => {
     if (!user) return;
+    // Campos privilegiados (role, ativo, id e email) não são editáveis pelo cliente.
+    const updates: { nome?: string; avatar_url?: string; updated_at: string } = {
+      updated_at: new Date().toISOString(),
+    };
+    if (typeof data.nome === 'string') updates.nome = data.nome;
+    if (typeof data.avatar_url === 'string') updates.avatar_url = data.avatar_url;
+
     const { data: updated, error } = await supabase
       .from('profiles')
-      .upsert({ id: user.id, email: user.email, ...data, updated_at: new Date().toISOString() }, { onConflict: 'id' })
+      .update(updates)
+      .eq('id', user.id)
       .select()
       .single();
     if (error) throw new Error(error.message);
