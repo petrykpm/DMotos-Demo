@@ -236,3 +236,76 @@ $$ language plpgsql immutable;
 -- Notify PostgREST to reload schema cache
 -- ============================================================
 notify pgrst, 'reload schema';
+
+
+-- Integridade multi-tenant: referências também precisam pertencer ao usuário.
+drop policy if exists "motos_insert_own" on public.motos;
+create policy "motos_insert_own" on public.motos for insert
+  with check (
+    auth.uid() = user_id
+    and exists (
+      select 1 from public.clientes c
+      where c.id = cliente_id and c.user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "motos_update_own" on public.motos;
+create policy "motos_update_own" on public.motos for update
+  using (auth.uid() = user_id)
+  with check (
+    auth.uid() = user_id
+    and exists (
+      select 1 from public.clientes c
+      where c.id = cliente_id and c.user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "ordens_insert_own" on public.ordens_servico;
+create policy "ordens_insert_own" on public.ordens_servico for insert
+  with check (
+    auth.uid() = user_id
+    and exists (
+      select 1 from public.clientes c
+      where c.id = cliente_id and c.user_id = auth.uid()
+    )
+    and exists (
+      select 1 from public.motos m
+      where m.id = moto_id
+        and m.cliente_id = cliente_id
+        and m.user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "ordens_update_own" on public.ordens_servico;
+create policy "ordens_update_own" on public.ordens_servico for update
+  using (auth.uid() = user_id)
+  with check (
+    auth.uid() = user_id
+    and exists (
+      select 1 from public.clientes c
+      where c.id = cliente_id and c.user_id = auth.uid()
+    )
+    and exists (
+      select 1 from public.motos m
+      where m.id = moto_id
+        and m.cliente_id = cliente_id
+        and m.user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "ordem_itens_insert" on public.ordem_itens;
+create policy "ordem_itens_insert" on public.ordem_itens for insert
+  with check (
+    exists (
+      select 1 from public.ordens_servico os
+      where os.id = ordem_id and os.user_id = auth.uid()
+    )
+    and exists (
+      select 1 from public.pecas p
+      where p.id = peca_id and p.user_id = auth.uid()
+    )
+  );
+
+revoke execute on function public.handle_new_user() from public, anon, authenticated;
+revoke execute on function public.gerar_numero_os(uuid) from public, anon;
+grant execute on function public.gerar_numero_os(uuid) to authenticated;
