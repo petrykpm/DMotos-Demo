@@ -88,13 +88,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updateProfile = useCallback(async (data: Partial<Profile>) => {
-    setProfile(current => {
-      if (!current) return current;
-      const updated = { ...current, nome: data.nome ?? current.nome, avatar_url: data.avatar_url ?? current.avatar_url };
-      setUser(makeDemoUser(updated));
-      return updated;
-    });
-  }, []);
+    if (!profile) return;
+    const updated = { ...profile, nome: data.nome ?? profile.nome, avatar_url: data.avatar_url ?? profile.avatar_url };
+    setProfile(updated);
+    setUser(makeDemoUser(updated));
+  }, [profile]);
 
   return (
     <AuthContext.Provider value={{
