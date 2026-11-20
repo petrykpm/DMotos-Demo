@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { configService } from '@/services/api';
 import { LoadingState } from '@/components/shared/LoadingState';
-import { LogOut, Bell, AlertTriangle, Save, Building2, ChevronDown, ChevronUp, Shield, Wrench, Loader2, Lock, Eye, EyeOff } from 'lucide-react';
+import { LogOut, Bell, AlertTriangle, Save, Building2, ChevronDown, ChevronUp, Shield, Wrench, Loader2, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 import logo from '@/assets/logo-dm-motos.png';
 
@@ -34,12 +34,6 @@ export default function Configuracoes() {
 
   // Senha
   const [senhaAberto, setSenhaAberto] = useState(false);
-  const [senhaAtual, setSenhaAtual] = useState('');
-  const [novaSenha, setNovaSenha] = useState('');
-  const [confirmarSenha, setConfirmarSenha] = useState('');
-  const [showSenhaAtual, setShowSenhaAtual] = useState(false);
-  const [showNovaSenha, setShowNovaSenha] = useState(false);
-  const [savingSenha, setSavingSenha] = useState(false);
 
   // Oficina
   const [nomeOficina, setNomeOficina] = useState('');
@@ -64,14 +58,6 @@ export default function Configuracoes() {
   useEffect(() => {
     if (profile) setNomeUser(profile.nome || '');
   }, [profile]);
-
-  const handleSaveSenha = async () => {
-    toast.info('A senha é fixa nesta demonstração. Use demo@dmmotos.com / demo123 para entrar.');
-    setSenhaAtual('');
-    setNovaSenha('');
-    setConfirmarSenha('');
-    setSenhaAberto(false);
-  };
 
   const handleSaveUser = async () => {
     if (!nomeUser.trim()) { toast.error('Nome não pode ser vazio'); return; }
@@ -194,61 +180,12 @@ export default function Configuracoes() {
           </button>
 
           {senhaAberto && (
-            <div className="px-4 pb-4 border-t border-border pt-3 space-y-3">
-              <div>
-                <label className="text-xs font-medium text-muted-foreground mb-1 block">Senha Atual</label>
-                <div className="relative">
-                  <input
-                    type={showSenhaAtual ? 'text' : 'password'}
-                    value={senhaAtual}
-                    onChange={e => setSenhaAtual(e.target.value)}
-                    placeholder="••••••••"
-                    className="w-full h-11 px-4 pr-10 bg-background border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 text-sm"
-                  />
-                  <button type="button" onClick={() => setShowSenhaAtual(!showSenhaAtual)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                    {showSenhaAtual ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </button>
-                </div>
-              </div>
-              <div>
-                <label className="text-xs font-medium text-muted-foreground mb-1 block">Nova Senha</label>
-                <div className="relative">
-                  <input
-                    type={showNovaSenha ? 'text' : 'password'}
-                    value={novaSenha}
-                    onChange={e => setNovaSenha(e.target.value)}
-                    placeholder="Mínimo 6 caracteres"
-                    className="w-full h-11 px-4 pr-10 bg-background border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 text-sm"
-                  />
-                  <button type="button" onClick={() => setShowNovaSenha(!showNovaSenha)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                    {showNovaSenha ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </button>
-                </div>
-              </div>
-              <div>
-                <label className="text-xs font-medium text-muted-foreground mb-1 block">Confirmar Nova Senha</label>
-                <input
-                  type="password"
-                  value={confirmarSenha}
-                  onChange={e => setConfirmarSenha(e.target.value)}
-                  placeholder="Repita a nova senha"
-                  className="w-full h-11 px-4 bg-background border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 text-sm"
-                />
-              </div>
-              {novaSenha && confirmarSenha && novaSenha !== confirmarSenha && (
-                <p className="text-xs text-destructive">As senhas não coincidem</p>
-              )}
-              <button
-                onClick={handleSaveSenha}
-                disabled={savingSenha}
-                className="w-full h-11 bg-gradient-red text-primary-foreground font-bold rounded-xl active:scale-[0.97] disabled:opacity-50 flex items-center justify-center gap-2 text-sm">
-                {savingSenha ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
-                'Ver credenciais de acesso'
-              </button>
+            <div className="px-4 pb-4 border-t border-border pt-3 space-y-2">
+              <p className="text-xs text-muted-foreground">A demonstração utiliza uma conta local compartilhada. A senha não pode ser alterada.</p>
+              <p className="text-sm text-foreground">E-mail: <strong>demo@dmmotos.com</strong></p>
+              <p className="text-sm text-foreground">Senha: <strong>demo123</strong></p>
             </div>
-          )}
+          )})}
         </div>
       </div>
 
