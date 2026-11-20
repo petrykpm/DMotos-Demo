@@ -155,8 +155,14 @@ export const ordemService = {
   async atualizarStatus(id: string, status: string) { const patch: Row = { status, updated_at: new Date().toISOString() }; if (status === 'finalizada') patch.finalizado_em = new Date().toISOString(); return this.atualizar(id, patch); },
   async atualizarItens(ordemId: string, itens: Row[], novoTotal: number) {
     const old = table('ordem_itens').filter(i => i.ordem_id === ordemId);
+    const available = new Map(table('pecas').map(p => [p.id, Number(p.quantidade || 0)]));
+    old.forEach(item => available.set(item.peca_id, (available.get(item.peca_id) || 0) + Number(item.quantidade || 0)));
+    for (const item of itens) {
+      const p = table('pecas').find(x => x.id === item.peca_id);
+      if (!p || (available.get(item.peca_id) || 0) < Number(item.quantidade)) throw new Error(`Estoque insuficiente para "${p?.nome || 'peça'}".`);
+      available.set(item.peca_id, (available.get(item.peca_id) || 0) - Number(item.quantidade));
+    }
     old.forEach(item => ajustarEstoque(item.peca_id, item.quantidade));
-    for (const item of itens) { const p = table('pecas').find(x => x.id === item.peca_id); if (!p || p.quantidade < item.quantidade) throw new Error(`Estoque insuficiente para "${p?.nome || 'peça'}".`); }
     saveTable('ordem_itens', table('ordem_itens').filter(i => i.ordem_id !== ordemId));
     const fresh = itens.map(item => createRow({ ordem_id: ordemId, peca_id: item.peca_id, quantidade: Number(item.quantidade), preco_unitario: Number(item.preco_unitario), subtotal: Number(item.preco_unitario) * Number(item.quantidade) }));
     saveTable('ordem_itens', [...table('ordem_itens'), ...fresh]);
