@@ -47,6 +47,8 @@ begin
 end;
 $$;
 
+revoke all on function public.incrementar_estoque(uuid, integer) from public, anon;
+revoke all on function public.decrementar_estoque(uuid, integer) from public, anon;
 grant execute on function public.incrementar_estoque(uuid, integer) to authenticated;
 grant execute on function public.decrementar_estoque(uuid, integer) to authenticated;
 
