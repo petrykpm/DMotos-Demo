@@ -31,7 +31,7 @@ export function OfflineBanner() {
       {showReconnected ? (
         <><Wifi size={14} /> Conexão restaurada</>
       ) : (
-        <><WifiOff size={14} /> Sem conexão — dados em cache podem estar desatualizados</>
+        <><WifiOff size={14} /> Sem conexão — os dados locais continuam disponíveis neste navegador</>
       )}
     </div>
   );
