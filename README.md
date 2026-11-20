@@ -31,7 +31,7 @@ A demonstração não utiliza Supabase, API externa ou banco de dados remoto.
 - As alterações são armazenadas no `localStorage` do navegador.
 - Os dados ficam isolados no navegador e dispositivo utilizados.
 - Limpar os dados do site ou usar outro navegador restaura uma base independente.
-- O botão de redefinição da demonstração (quando disponível) restaura os registros iniciais.
+- Limpar os dados do site no navegador restaura os registros iniciais.
 - Login é simulado no frontend e não representa autenticação segura para produção.
 
 ## Executar localmente
