@@ -185,7 +185,7 @@ export default function Configuracoes() {
               <p className="text-sm text-foreground">E-mail: <strong>demo@dmmotos.com</strong></p>
               <p className="text-sm text-foreground">Senha: <strong>demo123</strong></p>
             </div>
-          )})}
+          )}
         </div>
       </div>
 
