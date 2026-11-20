@@ -1,30 +1,38 @@
 # DM Motos — Demonstração
 
-Sistema de gestão para oficinas de motocicletas, desenvolvido como aplicação web responsiva com React, TypeScript, Vite e Supabase.
+Sistema de gestão para oficinas de motocicletas, desenvolvido com React, TypeScript e Vite.
 
-> Repositório público de demonstração. O repositório principal de desenvolvimento permanece privado: [DMotos](https://github.com/petrykpm/DMotos).
+> Este é um ambiente público de demonstração. O repositório principal de desenvolvimento permanece privado: [DMotos](https://github.com/petrykpm/DMotos).
 
-**Demonstração online:** https://dm-moto-pros.vercel.app/
+**Demonstração online:** https://dmotos-demo-p4qyy99s6-petryk.vercel.app
+
+## Acesso de demonstração
+
+- **E-mail:** `demo@dmmotos.com`
+- **Senha:** `demo123`
+
+As credenciais são públicas e servem apenas para entrar na experiência demonstrativa. Não use dados reais.
 
 ## Funcionalidades
 
 - Cadastro e consulta de clientes.
 - Cadastro de motocicletas e histórico por cliente.
 - Ordens de serviço e acompanhamento de status.
-- Controle de estoque, entrada de peças e categorias personalizadas.
+- Controle de estoque, entrada de peças e categorias.
 - Relatórios operacionais e geração de PDF.
-- Autenticação e perfis de acesso.
-- Upload de fotos de ordens de serviço em bucket privado.
+- Preferências básicas da oficina.
 - Interface responsiva e suporte PWA.
 
-## Stack
+## Como os dados funcionam
 
-- React 18, TypeScript e Vite.
-- Tailwind CSS, shadcn/ui, Radix UI e Lucide.
-- React Router, React Query e React Hook Form.
-- Supabase Auth, PostgreSQL, RLS e Storage.
-- Capacitor para empacotamento Android.
-- Vitest e Playwright para testes.
+A demonstração não utiliza Supabase, API externa ou banco de dados remoto.
+
+- Os registros iniciais são fictícios e definidos no código.
+- As alterações são armazenadas no `localStorage` do navegador.
+- Os dados ficam isolados no navegador e dispositivo utilizados.
+- Limpar os dados do site ou usar outro navegador restaura uma base independente.
+- O botão de redefinição da demonstração (quando disponível) restaura os registros iniciais.
+- Login é simulado no frontend e não representa autenticação segura para produção.
 
 ## Executar localmente
 
@@ -34,18 +42,6 @@ Requisitos: Node.js LTS e npm.
 git clone https://github.com/petrykpm/DMotos-Demo.git
 cd DMotos-Demo
 npm ci
-```
-
-Copie `.env.example` para `.env.local` e configure as variáveis com um projeto Supabase próprio:
-
-```env
-VITE_SUPABASE_URL=https://SEU-PROJETO.supabase.co
-VITE_SUPABASE_ANON_KEY=SUA_CHAVE_PUBLICA_ANON
-```
-
-Depois execute:
-
-```bash
 npm run dev
 ```
 
@@ -57,51 +53,20 @@ npm test
 npm run build
 ```
 
-## Configurar o Supabase
+## Stack
 
-No SQL Editor do seu projeto Supabase, execute os arquivos nesta ordem:
+- React 18, TypeScript e Vite.
+- Tailwind CSS, shadcn/ui, Radix UI e Lucide.
+- React Router, React Query e React Hook Form.
+- localStorage para persistência local da demonstração.
+- Vitest e Playwright para testes.
 
-1. `supabase/schema.sql` — tabelas principais, RLS e trigger de criação de perfil.
-2. `supabase/functions_estoque.sql` — funções RPC para ajuste atômico de estoque.
-3. `supabase/categorias.sql` — categorias personalizadas de peças.
-4. `supabase/storage.sql` — bucket privado e políticas para fotos de OS.
+## Segurança e limitações
 
-O trigger cria novos perfis com a função `mecanico`. Para promover o primeiro administrador, faça isso manualmente no SQL Editor do projeto, após confirmar o UUID correto do usuário:
-
-```sql
-update public.profiles
-set role = 'admin'
-where id = 'UUID_DO_USUARIO';
-```
-
-Não permita que o frontend escolha ou altere a própria função. As políticas RLS e as permissões no banco são a camada efetiva de autorização.
-
-## Segurança
-
-- Nunca coloque uma chave `service_role` no frontend ou em variáveis `VITE_*`.
-- A chave pública `anon` pode estar no frontend; a segurança depende de RLS corretamente configurada.
-- Use um projeto Supabase separado para desenvolvimento e demonstração.
-- Não utilize dados pessoais reais de clientes.
-- Não versione arquivos `.env`, tokens, senhas ou credenciais.
-- O repositório não inclui a pasta gerada `android/` nem o arquivo local `.env.production`.
-
-## Estrutura
-
-```text
-src/
-  components/   # Componentes compartilhados e UI
-  hooks/        # Hooks React e autenticação
-  lib/          # Supabase, utilitários e geração de PDF
-  pages/        # Telas e rotas da aplicação
-  services/     # Acesso aos dados e regras de integração
-  types/        # Tipos TypeScript
-supabase/       # SQL revisado para configuração do banco
-public/         # Ícones, PWA e recursos estáticos
-```
-
-## Observações
-
-Este repositório é uma cópia pública preparada para demonstração e avaliação técnica. Para executar todas as funcionalidades, é necessário configurar um projeto Supabase próprio e aplicar os scripts SQL acima. A demonstração hospedada pode utilizar configurações e dados independentes deste repositório.
+- Não há conexão com o Supabase original nem com dados reais.
+- Não insira informações pessoais, credenciais ou dados de clientes.
+- O login demonstrativo é facilmente inspecionável e não deve ser reutilizado em produção.
+- O armazenamento local não sincroniza informações entre usuários ou dispositivos.
 
 ## Autor
 
