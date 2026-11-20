@@ -24,6 +24,7 @@ import Busca from "./pages/Busca";
 import Motos from "./pages/Motos";
 import Categorias from "./pages/Categorias";
 import { OfflineBanner } from "@/components/shared/OfflineBanner";
+import { DemoNotice } from "@/components/shared/DemoNotice";
 import { useAndroidBack } from "@/hooks/useAndroidBack";
 
 const queryClient = new QueryClient({
@@ -111,6 +112,7 @@ const App = () => (
     <TooltipProvider>
       <Sonner position="top-center" />
       <BrowserRouter>
+        <DemoNotice />
         <AuthProvider>
           <OfflineBanner />
           <AppRoutes />
