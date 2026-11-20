@@ -3,7 +3,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { configService } from '@/services/api';
 import { LoadingState } from '@/components/shared/LoadingState';
 import { LogOut, Bell, AlertTriangle, Save, Building2, ChevronDown, ChevronUp, Shield, Wrench, Loader2, Lock, Eye, EyeOff } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 import logo from '@/assets/logo-dm-motos.png';
 
@@ -67,28 +66,11 @@ export default function Configuracoes() {
   }, [profile]);
 
   const handleSaveSenha = async () => {
-    if (!senhaAtual.trim()) { toast.error('Digite a senha atual'); return; }
-    if (!novaSenha.trim() || novaSenha.length < 6) { toast.error('Nova senha deve ter pelo menos 6 caracteres'); return; }
-    if (novaSenha !== confirmarSenha) { toast.error('As senhas não coincidem'); return; }
-    setSavingSenha(true);
-    try {
-      // Verifica senha atual fazendo login
-      const { error: signInErr } = await supabase.auth.signInWithPassword({
-        email: profile?.email || '',
-        password: senhaAtual,
-      });
-      if (signInErr) { toast.error('Senha atual incorreta'); setSavingSenha(false); return; }
-      // Atualiza senha
-      const { error } = await supabase.auth.updateUser({ password: novaSenha });
-      if (error) throw new Error(error.message);
-      toast.success('Senha alterada com sucesso!');
-      setSenhaAtual(''); setNovaSenha(''); setConfirmarSenha('');
-      setSenhaAberto(false);
-    } catch (err: any) {
-      toast.error(err.message || 'Erro ao alterar senha');
-    } finally {
-      setSavingSenha(false);
-    }
+    toast.info('A senha é fixa nesta demonstração. Use demo@dmmotos.com / demo123 para entrar.');
+    setSenhaAtual('');
+    setNovaSenha('');
+    setConfirmarSenha('');
+    setSenhaAberto(false);
   };
 
   const handleSaveUser = async () => {
@@ -205,8 +187,8 @@ export default function Configuracoes() {
               <Lock size={16} className="text-primary" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium text-foreground">Alterar Senha</p>
-              <p className="text-xs text-muted-foreground">Altere sua senha de acesso</p>
+              <p className="text-sm font-medium text-foreground">Acesso de demonstração</p>
+              <p className="text-xs text-muted-foreground">Credenciais fixas do ambiente demo</p>
             </div>
             {senhaAberto ? <ChevronUp size={16} className="text-muted-foreground" /> : <ChevronDown size={16} className="text-muted-foreground" />}
           </button>
@@ -263,7 +245,7 @@ export default function Configuracoes() {
                 disabled={savingSenha}
                 className="w-full h-11 bg-gradient-red text-primary-foreground font-bold rounded-xl active:scale-[0.97] disabled:opacity-50 flex items-center justify-center gap-2 text-sm">
                 {savingSenha ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
-                {savingSenha ? 'Alterando...' : 'Alterar Senha'}
+                'Ver credenciais de acesso'
               </button>
             </div>
           )}
