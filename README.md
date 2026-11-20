@@ -1,60 +1,49 @@
 # DM Motos — Demonstração
 
-Sistema web de gestão desenvolvido para oficinas de motocicletas. O projeto busca centralizar rotinas de atendimento, cadastro e manutenção em uma única aplicação.
+Sistema de gestão para oficinas de motocicletas, desenvolvido com React, TypeScript, Vite e Supabase.
 
-> **Repositório público de apresentação.** O código-fonte completo permanece no repositório privado [DMotos](https://github.com/petrykpm/DMotos).
+> Este repositório é uma versão pública de demonstração do projeto. O repositório de desenvolvimento permanece privado: [DMotos](https://github.com/petrykpm/DMotos).
 
 ## Demonstração online
 
-**Acessar:** https://dm-moto-pros.vercel.app/
+https://dm-moto-pros.vercel.app/
 
-A disponibilidade depende do ambiente de hospedagem e dos serviços externos integrados.
+## Módulos do sistema
 
-## Sobre o sistema
+- Cadastro e consulta de clientes.
+- Cadastro de motocicletas.
+- Ordens de serviço e acompanhamento de serviços.
+- Controle de estoque e entrada de peças.
+- Relatórios operacionais.
+- Autenticação de usuários.
+- Interface responsiva e suporte PWA.
 
-O DM Motos foi desenvolvido para apoiar a operação de uma oficina de motocicletas, organizando informações e rotinas em uma única aplicação.
+## Stack
 
-## Principais módulos
+React 18 · TypeScript · Vite · Tailwind CSS · shadcn/ui · React Router · Supabase · Capacitor.
 
-- **Clientes:** cadastro e consulta de clientes.
-- **Motocicletas:** registro de motos vinculadas aos clientes.
-- **Ordens de serviço:** abertura e acompanhamento de serviços.
-- **Estoque:** organização de peças e informações de inventário.
-- **Relatórios:** consulta de informações operacionais e geração de documentos.
-- **Autenticação:** controle de acesso de usuários.
-- **Interface responsiva:** experiência adaptada para desktop e dispositivos móveis.
-- **PWA:** suporte à instalação como aplicativo e recursos offline para partes da interface.
+## Configuração local
 
-## Tecnologias utilizadas
+1. Instale Node.js LTS.
+2. Instale as dependências com `npm install`.
+3. Copie `.env.example` para `.env.local`.
+4. Configure `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` com valores do seu próprio projeto Supabase.
+5. Execute `npm run dev`.
 
-| Área | Tecnologias |
-|---|---|
-| Interface | React 18, TypeScript |
-| Build | Vite |
-| Estilização | Tailwind CSS |
-| Componentes | shadcn/ui, Radix UI, Lucide |
-| Navegação | React Router |
-| Formulários | React Hook Form, Zod |
-| Backend e autenticação | Supabase |
-| Aplicativo móvel | Capacitor |
-| Testes | Vitest, Testing Library, Playwright |
+Não use uma chave `service_role` no frontend. Ela concede privilégios administrativos e deve permanecer exclusivamente em ambientes de servidor.
 
-## Organização técnica
+## Segurança e dados
 
-A aplicação separa a interface em páginas e componentes reutilizáveis, concentra lógica compartilhada em hooks e mantém integrações de dados em serviços dedicados.
+- Não versione arquivos `.env` nem credenciais reais.
+- Use um projeto Supabase separado para testes e demonstrações.
+- Ative Row Level Security (RLS) nas tabelas expostas.
+- As permissões devem ser validadas no banco/backend; o frontend não deve conceder funções administrativas.
+- Não utilize dados pessoais reais de clientes na demonstração.
 
-## Contexto
+## Observação sobre a cópia pública
 
-Projeto desenvolvido como solução aplicada à gestão de oficinas de motocicletas, com foco em digitalizar cadastros e rotinas de atendimento, manutenção e estoque.
-
-## Privacidade
-
-Este repositório não distribui o código-fonte da aplicação. Não inclua arquivos `.env`, tokens, senhas, chaves privadas ou dados reais de clientes.
+O código e os arquivos de execução desta demonstração estão sendo preparados para publicação. A versão pública deve ser validada antes de ser considerada reproduzível localmente.
 
 ## Autor
 
-**Petryk** — [GitHub](https://github.com/petrykpm)
-
----
-
-*Repositório destinado à apresentação do projeto em portfólio.*
+Petryk — https://github.com/petrykpm
